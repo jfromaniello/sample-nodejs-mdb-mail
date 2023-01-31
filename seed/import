@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+ls -1 /initdb.d/*.json | while read file; do
+    mongoimport --uri=$MONGODB_URI --authenticationDatabase=admin --type json --file $file --jsonArray --drop
+done
