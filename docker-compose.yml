@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  maildev:
+    container_name: ${APP_NAME}-maildev
+    image: djfarrelly/maildev:0.14.0
+    ports:
+      - 1080:80
+      - 1025:25
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 47027:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+
