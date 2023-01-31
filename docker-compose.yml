@@ -2,7 +2,6 @@ version: '2'
 
 services:
   maildev:
-    container_name: ${APP_NAME}-maildev
     image: djfarrelly/maildev:0.14.0
     ports:
       - 1080:80
@@ -17,3 +16,14 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
 
+  seed:
+    build:
+      context: seed
+      dockerfile: Dockerfile
+    volumes:
+      - ./seed/initdb.d:/initdb.d/
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo
+      WAIT_HOSTS: mongodb:27017
